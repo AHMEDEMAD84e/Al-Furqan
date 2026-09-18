@@ -10,6 +10,8 @@ import AdhkarPage from './pages/AdhkarPage.jsx';
 import TasbihPage from './pages/TasbihPage.jsx';
 import { usePrayerTimes } from './hooks/usePrayerTimes.js';
 
+import ScrollToTop from './components/common/ScrollToTop.jsx';
+
 function AppLayout() {
   const location = useLocation();
   const { hijriDate, location: userLocation, changeCity } = usePrayerTimes();
@@ -49,6 +51,7 @@ function AppLayout() {
 export default function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <AppLayout />
     </BrowserRouter>
   );
