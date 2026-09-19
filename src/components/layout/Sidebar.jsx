@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { usePrayerTimes } from '../../hooks/usePrayerTimes';
 import PrayerIcon from '../common/PrayerIcon';
@@ -6,6 +6,21 @@ import logoImg from '../../../images/Logo.jpg';
 
 export default function Sidebar({ isOpen, onClose }) {
   const { nextPrayer, nextPrayerName, countdown } = usePrayerTimes();
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add('sidebar-open-no-scroll');
+      document.documentElement.classList.add('sidebar-open-no-scroll');
+    } else {
+      document.body.classList.remove('sidebar-open-no-scroll');
+      document.documentElement.classList.remove('sidebar-open-no-scroll');
+    }
+
+    return () => {
+      document.body.classList.remove('sidebar-open-no-scroll');
+      document.documentElement.classList.remove('sidebar-open-no-scroll');
+    };
+  }, [isOpen]);
 
   const navItems = [
     { path: '/', label: 'الرئيسية', iconClass: 'bx bxs-home' },
@@ -17,7 +32,13 @@ export default function Sidebar({ isOpen, onClose }) {
   return (
     <>
       {/* Backdrop for mobile */}
-      {isOpen && <div className="sidebar-backdrop" onClick={onClose} />}
+      {isOpen && (
+        <div
+          className="sidebar-backdrop"
+          onClick={onClose}
+          onTouchMove={(e) => e.preventDefault()}
+        />
+      )}
 
       <aside className={`sidebar ${isOpen ? 'open' : ''}`}>
         {/* Sidebar Header / Logo */}
